@@ -1,13 +1,26 @@
 # -*- coding: utf-8; -*-
-#
-# This file is part of Superdesk.
-#
-# Copyright 2013, 2014 Sourcefabric z.u. and contributors.
-#
-# For the full copyright and license information, please see the
-# AUTHORS and LICENSE files distributed with this source code, or
-# at https://www.sourcefabric.org/eden/license
 import eden
+import logging
+from eve.utils import config
+
+log = logging.getLogger(__name__)
+
+not_indexed = {'type': 'string', 'index': 'no'}  # noqa
+not_analyzed = {'type': 'string', 'index': 'not_analyzed'}
+
+
+def build_custom_hateoas(hateoas, doc, **values):
+    values.update(doc)
+    links = doc.get(config.LINKS)
+    if not links:
+        links = {}
+        doc[config.LINKS] = links
+
+    for link_name in hateoas.keys():
+        link = hateoas[link_name]
+        link = {'title': link['title'], 'href': link['href']}
+        link['href'] = link['href'].format(**values)
+        links[link_name] = link
 
 
 _METHODS = ['GET', 'HEAD', 'POST', 'PATCH', 'PUT', 'DELETE']
@@ -23,6 +36,7 @@ class Resource:
     item_url = None
     additional_lookup = None
     schema = {}
+    allow_unknown = None
     item_methods = None
     resource_methods = None
     public_methods = None
@@ -38,13 +52,19 @@ class Resource:
     resource_preferences = None
     etag_ignore_fields = []
     mongo_prefix = None
+    mongo_indexes = None
     auth_field = None
+    authentication = None
+    elastic_prefix = None
+    query_objectid_as_string = None
 
     def __init__(self, endpoint_name, app, service, endpoint_schema=None):
         self.endpoint_name = endpoint_name
         self.service = service
         if not endpoint_schema:
             endpoint_schema = {'schema': self.schema}
+            if self.allow_unknown is not None:
+                endpoint_schema.update({'allow_unknown': self.allow_unknown})
             if self.additional_lookup is not None:
                 endpoint_schema.update({'additional_lookup': self.additional_lookup})
             if self.extra_response_fields is not None:
@@ -77,6 +97,15 @@ class Resource:
                 endpoint_schema.update({'mongo_prefix': self.mongo_prefix})
             if self.auth_field:
                 endpoint_schema.update({'auth_field': self.auth_field})
+            if self.authentication:
+                endpoint_schema.update({'authentication': self.authentication})
+            if self.elastic_prefix:
+                endpoint_schema.update({'elastic_prefix': self.elastic_prefix})
+            if self.query_objectid_as_string:
+                endpoint_schema.update({'query_objectid_as_string': self.query_objectid_as_string})
+            if self.mongo_indexes:
+                # used in app:initialize_data
+                endpoint_schema['mongo_indexes__init'] = self.mongo_indexes
 
         self.endpoint_schema = endpoint_schema
 
@@ -130,6 +159,21 @@ class Resource:
             'required': required,
             'nullable': nullable,
             'data_relation': {'resource': resource, 'field': '_id', 'embeddable': embeddable}
+        }
+
+    @staticmethod
+    def int(required=False, nullable=False):
+        return {
+            'type': 'integer',
+            'required': required,
+            'nullable': nullable,
+        }
+
+    @staticmethod
+    def not_analyzed_field(type='string'):
+        return {
+            'type': type,
+            'mapping': not_analyzed,
         }
 
     @staticmethod

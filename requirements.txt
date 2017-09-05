@@ -19,3 +19,4 @@ boto3
 mongolock
 Eve-Statsd
 enum34
+blinker
