@@ -1,0 +1,3 @@
+recursive-include eden *.json
+recursive-include eden *.txt
+recursive-include eden *.html
