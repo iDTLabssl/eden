@@ -20,13 +20,13 @@ REQUIREMENTS = [str(ir.req) for ir in parse_requirements('requirements.txt', ses
                 if not (getattr(ir, 'link', False) or getattr(ir, 'url', False))]
 
 setup(
-    name='Eden-Core',
+    name='Eden',
     version='0.0.2-dev',
     description='Eden Core library',
     long_description=LONG_DESCRIPTION,
     author='Salton Massally',
     author_email='salton.massally@gmail.com',
-    url='https://github.com/idtlabssl/eden-core',
+    url='https://github.com/idtlabssl/eden',
     license='GPLv3',
     platforms=['any'],
     packages=find_packages(exclude=['tests']),
