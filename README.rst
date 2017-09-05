@@ -9,10 +9,6 @@ Eve DynamoDB extension
    :target: https://coveralls.io/r/idtlabssl/eden-core?branch=master
 
 
-.. image:: https://landscape.io/github/idtlabssl/eden-core/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/idtlabssl/eden-core/master
-
-
 
 Utilities for building Eve powered Microservices. Powered by Eve, Mongo and black magic this extenstion allows
 us to effortlessly build and deploy highly customizable, fully featured RESTful Web Services.
