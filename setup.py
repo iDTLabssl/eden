@@ -21,7 +21,7 @@ REQUIREMENTS = [str(ir.req) for ir in parse_requirements('requirements.txt', ses
 
 setup(
     name='Eden',
-    version='0.0.2-dev',
+    version='0.0.3-dev',
     description='Eden Core library',
     long_description=LONG_DESCRIPTION,
     author='Salton Massally',
