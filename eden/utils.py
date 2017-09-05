@@ -17,6 +17,7 @@ from bson import ObjectId
 from enum import Enum
 from importlib import import_module
 from eve.utils import config
+import base64
 
 
 required_string = {
@@ -174,3 +175,11 @@ def sha(text):
     :param text: text str
     """
     return hashlib.sha256(text.encode()).hexdigest()
+
+
+def get_random_token(n=40):
+    """Generate random token.
+
+    :param n: how many random bytes to generate
+    """
+    return base64.b64encode(os.urandom(n)).decode()
