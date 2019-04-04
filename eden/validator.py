@@ -58,17 +58,6 @@ class EdenValidator(Validator):
             for email in emails:
                 self._validate_type_email(field, email)
 
-    def _validate_unique(self, unique, field, value):
-        """Validate unique with custom error msg."""
-
-        if not self.resource.endswith("autosave") and unique:
-            query = {field: value}
-            self._set_id_query(query)
-
-            cursor = eden.get_resource_service(self.resource).get_from_mongo(req=None, lookup=query)
-            if cursor.count():
-                self._error(field, ERROR_UNIQUE)
-
     def _set_id_query(self, query):
             if self._id:
                 try:
@@ -107,12 +96,6 @@ class EdenValidator(Validator):
             if cursor.count():
                 self._error(field, ERROR_UNIQUE)
 
-    def _validate_minlength(self, min_length, field, value):
-        """Validate minlength with custom error msg."""
-        if isinstance(value, (type(''), list)):
-            if len(value) < min_length:
-                self._error(field, ERROR_MINLENGTH)
-
     def _validate_required_fields(self, document):
         required = list(field for field, definition in self.schema.items()
                         if definition.get('required') is True)
@@ -126,22 +109,6 @@ class EdenValidator(Validator):
         """It will fail later when loading."""
         if not isinstance(value, type('')):
             self._error(field, ERROR_JSON_LIST)
-
-    def _validate_unique_to_user(self, unique, field, value):
-        """Check that value is unique globally or to current user.
-        In case 'user' is set within document it will check for unique within
-        docs with same 'user' value.
-        Otherwise it will check for unique within docs without any 'user' value.
-        """
-        doc = getattr(self, 'document', getattr(self, 'original_document', {}))
-
-        if 'user' in doc:
-            _, auth_value = auth_field_and_value(self.resource)
-            query = {'user': auth_value}
-        else:
-            query = {'user': {'$exists': False}}
-
-        self._is_value_unique(unique, field, value, query)
 
     def _validate_unique_template(self, unique, field, value):
         """Check that value is unique globally or to current user.
