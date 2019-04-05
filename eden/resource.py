@@ -59,6 +59,9 @@ class Resource:
     authentication = None
     elastic_prefix = None
     query_objectid_as_string = None
+    insert_readonly: list = None  # fields that should be readonly on create
+    update_readonly: list = None  # fields that should be readonly on edit
+    replace_readonly: list = None  # fields that should be readonly on edit
 
     def __init__(self, endpoint_name, app, service, endpoint_schema=None):
         self.endpoint_name = endpoint_name
@@ -123,6 +126,10 @@ class Resource:
         on_insert_event -= service.on_create
         on_insert_event += service.on_create
 
+        # let's also add  the validation here for inserts
+        on_insert_event -= self.on_pre_insert
+        on_insert_event += self.on_pre_insert
+
         on_inserted_event = getattr(app, 'on_inserted_%s' % self.endpoint_name)
         on_inserted_event -= service.on_created
         on_inserted_event += service.on_created
@@ -130,6 +137,10 @@ class Resource:
         on_update_event = getattr(app, 'on_update_%s' % self.endpoint_name)
         on_update_event -= service.on_update
         on_update_event += service.on_update
+
+        # let's also add  the validation here for updates
+        on_update_event -= self.on_pre_update
+        on_update_event += self.on_pre_update
 
         on_updated_event = getattr(app, 'on_updated_%s' % self.endpoint_name)
         on_updated_event -= service.on_updated
@@ -143,6 +154,19 @@ class Resource:
         on_deleted_event -= service.on_deleted
         on_deleted_event += service.on_deleted
 
+        on_replace_event = getattr(app, 'on_replace_%s' % self.endpoint_name)
+        on_replace_event -= service.on_replace
+        on_replace_event += service.on_replace
+
+        # let's also add  the validation here for replaces
+        on_replace_event -= self.on_pre_replace
+        on_replace_event += self.on_pre_replace
+
+        on_replaced_event = getattr(app, 'on_replaced_%s' % self.endpoint_name)
+        on_replaced_event -= service.on_replaced
+        on_replaced_event += service.on_replaced
+
+
         # hook in our pre and post processors
         for phase in ('pre', 'post'):
             for method in _METHODS:
@@ -153,6 +177,18 @@ class Resource:
 
         app.register_resource(self.endpoint_name, endpoint_schema)
         eden.resources[self.endpoint_name] = self
+
+    def on_pre_insert(self, docs):
+        for key in set(self.insert_readonly).intersection(set(docs.keys())):
+            del docs[key]
+
+    def on_pre_update(self, updates, original):
+        for key in set(self.update_readonly).intersection(set(updates.keys())):
+            del updates[key]
+
+    def on_pre_replace(self, document, original):
+        for key in set(self.replace_readonly).intersection(set(document.keys())):
+            del document[key]
 
     @staticmethod
     def rel(resource, embeddable=True, required=False, type='objectid', nullable=False):
