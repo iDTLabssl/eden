@@ -179,18 +179,21 @@ class Resource:
         eden.resources[self.endpoint_name] = self
 
     def on_pre_insert(self, docs):
-        for doc in docs:
-            for key in set(self.insert_readonly).intersection(set(doc.keys())):
-                del doc[key]
+        if self.insert_readonly:
+            for doc in docs:
+                for key in set(self.insert_readonly).intersection(set(doc.keys())):
+                    del doc[key]
 
     def on_pre_update(self, updates, original):
-        for update in updates:
-            for key in set(self.update_readonly).intersection(set(update.keys())):
-                del update[key]
+        if self.update_readonly:
+            for update in updates:
+                for key in set(self.update_readonly).intersection(set(update.keys())):
+                    del update[key]
 
     def on_pre_replace(self, document, original):
-        for key in set(self.replace_readonly).intersection(set(document.keys())):
-            del document[key]
+        if self.replace_readonly:
+            for key in set(self.replace_readonly).intersection(set(document.keys())):
+                del document[key]
 
     @staticmethod
     def rel(resource, embeddable=True, required=False, type='objectid', nullable=False):
