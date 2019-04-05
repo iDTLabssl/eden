@@ -1,7 +1,9 @@
 # -*- coding: utf-8; -*-
-import eden
 import logging
+
 from eve.utils import config
+
+import eden
 
 log = logging.getLogger(__name__)
 
@@ -211,7 +213,7 @@ class Resource:
     @staticmethod
     def post_POST(request, payload):
         pass
-    
+
     @staticmethod
     def post_PATCH(request, payload):
         pass

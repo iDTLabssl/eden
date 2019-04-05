@@ -1,8 +1,6 @@
-
 import mongolock
-
-from werkzeug.local import LocalProxy
 from flask import current_app as app
+from werkzeug.local import LocalProxy
 
 
 def _get_lock():

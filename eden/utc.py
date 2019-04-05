@@ -1,8 +1,9 @@
 # -*- coding: utf-8; -*-
-import arrow
 import datetime
+
+import arrow
 import pytz
-from pytz import utc, timezone  # flake8: noqa
+from pytz import utc  # flake8: noqa
 
 tzinfo = getattr(datetime, 'tzinfo', object)
 

@@ -14,17 +14,18 @@ Created on May 29, 2014
 @author: ioan
 """
 
-from datetime import datetime
 import logging
+from datetime import datetime
+
 import werkzeug
-import eden
 from bson import ObjectId
 from celery import Celery
-from kombu.serialization import register
 from eve.io.mongo import MongoJSONEncoder
 from flask import json, current_app as app
-from eden.errors import EdenError
+from kombu.serialization import register
 
+import eden
+from eden.errors import EdenError
 
 logger = logging.getLogger(__name__)
 celery = Celery(__name__)
@@ -46,6 +47,7 @@ def try_cast(v):
             return v
         else:
             return v
+
 
 def cast_item(o):
     with eden.app.app_context():
@@ -120,6 +122,7 @@ class AppContextTask(TaskBase):
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         with eden.app.app_context():
             handle_exception(exc)
+
 
 celery.Task = AppContextTask
 

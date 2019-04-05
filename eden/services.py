@@ -9,11 +9,11 @@
 # at https://www.sourcefabric.org/superdesk/license
 
 import logging
-from flask import current_app as app
-from eve.defaults import resolve_default_values
-from eve.utils import ParsedRequest, config
-from eve.methods.common import resolve_document_etag
 
+from eve.defaults import resolve_default_values
+from eve.methods.common import resolve_document_etag
+from eve.utils import ParsedRequest, config
+from flask import current_app as app
 
 log = logging.getLogger(__name__)
 

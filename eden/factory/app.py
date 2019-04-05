@@ -9,15 +9,17 @@
 # AUTHORS and LICENSE files distributed with this source code, or
 # at https://www.sourcefabric.org/eden/license
 
-import os
 import importlib
-import jinja2
+import os
+
 import eve
-import eden.factory.settings
+import jinja2
 from eve.io.mongo import MongoJSONEncoder
 from eve.render import send_response
-from eden.celery_app import init_celery
 from raven.contrib.flask import Sentry
+
+import eden.factory.settings
+from eden.celery_app import init_celery
 from eden.errors import EdenError, EdenApiError
 from eden.validator import EdenValidator
 
@@ -79,8 +81,8 @@ def get_app(config=None):
     @app.errorhandler(500)
     def server_error_handler(error):
         """Log server errors."""
-#         app.sentry.captureException()
-#         app.logger.exception(error)
+        #         app.sentry.captureException()
+        #         app.logger.exception(error)
         return_error = EdenApiError.internalError()
         return client_error_handler(return_error)
 
@@ -103,7 +105,7 @@ def get_app(config=None):
     for name, jinja_filter in eden.JINJA_FILTERS.items():
         app.jinja_env.filters[name] = jinja_filter
 
-#     app.sentry = sentry
-#     sentry.init_app(app)
+    #     app.sentry = sentry
+    #     sentry.init_app(app)
 
     return app

@@ -2,13 +2,14 @@
 # -*- coding: utf-8; -*-
 #
 
-import os
 import logging
+import os
 
 try:
     from urllib.parse import urlparse
 except ImportError:
     from urlparse import urlparse
+
 
 def env(variable, fallback_value=None):
     env_value = os.environ.get(variable, '')
@@ -34,7 +35,7 @@ URL_PREFIX = server_url.path.lstrip('/') or ''
 if SERVER_NAME.endswith(':80'):
     SERVER_NAME = SERVER_NAME[:-3]
 
-if ':' in SERVER_NAME: 
+if ':' in SERVER_NAME:
     parts = SERVER_NAME.split(':')
     SERVER_DOMAIN = parts[0]
 else:
@@ -81,7 +82,6 @@ RESOURCE_METHODS = ['GET', 'POST']
 ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
 EXTENDED_MEDIA_INFO = ['content_type', 'name', 'length']
 RETURN_MEDIA_AS_BASE64_STRING = False
-
 
 ORGANIZATION_NAME = "Eden Powered Service"
 ORGANIZATION_NAME_ABBREVIATION = "iDT Labs"

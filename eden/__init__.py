@@ -10,15 +10,13 @@
 
 """Eden"""
 
-from flask import abort, json, Blueprint, current_app as app  # noqa
-from flask.ext.script import Command as BaseCommand, Option  # noqa @UnresolvedImport
-from werkzeug.exceptions import HTTPException
-from eve.utils import config  # noqa
-from eve.methods.common import document_link  # noqa
-
-from .services import BaseService
-from .resource import Resource  # noqa
 import logging
+
+from flask import current_app as app  # noqa
+from flask_script import Command as BaseCommand  # noqa @UnresolvedImport
+
+from .resource import Resource  # noqa
+from .services import BaseService
 
 API_NAME = 'Eden API'
 VERSION = (0, 0, 1)

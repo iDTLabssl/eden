@@ -10,4 +10,3 @@
 # at https://www.sourcefabric.org/eden/license
 
 
-from app import get_app  # NOQA

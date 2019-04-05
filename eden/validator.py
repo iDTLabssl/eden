@@ -1,13 +1,13 @@
 # -*- coding: utf-8; -*-
 import re
-import eden
 
 from bson import ObjectId
+from eve.auth import auth_field_and_value
 from eve.io.mongo import Validator
 from eve.utils import config
 from werkzeug.datastructures import FileStorage
-from eve.auth import auth_field_and_value
 
+import eden
 
 ERROR_PATTERN = {'pattern': 1}
 ERROR_UNIQUE = {'unique': 1}
@@ -59,11 +59,11 @@ class EdenValidator(Validator):
                 self._validate_type_email(field, email)
 
     def _set_id_query(self, query):
-            if self._id:
-                try:
-                    query[config.ID_FIELD] = {'$ne': ObjectId(self._id)}
-                except:
-                    query[config.ID_FIELD] = {'$ne': self._id}
+        if self._id:
+            try:
+                query[config.ID_FIELD] = {'$ne': ObjectId(self._id)}
+            except:
+                query[config.ID_FIELD] = {'$ne': self._id}
 
     def _validate_iunique(self, unique, field, value):
         """Validate uniqueness ignoring case.MONGODB USE ONLY"""

@@ -9,13 +9,14 @@
 # at https://www.sourcefabric.org/eden/license
 
 
-import os
-import pymongo
-import unittest
 import logging
-
+import os
+import unittest
 from base64 import b64encode
+
+import pymongo
 from flask import json
+
 from eden.factory import get_app
 
 test_user = {

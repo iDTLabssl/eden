@@ -8,15 +8,16 @@
 # AUTHORS and LICENSE files distributed with this source code, or
 # at https://www.sourcefabric.org/eden/license
 
-from eden.tests import TestCase
-from eden.celery_app import try_cast, loads
-from bson import ObjectId
 from datetime import datetime
+
+from bson import ObjectId
 from eve.utils import date_to_str
+
+from eden.celery_app import try_cast, loads
+from eden.tests import TestCase
 
 
 class CeleryTestCase(TestCase):
-
     _id = ObjectId('528de7b03b80a13eefc5e610')
 
     def test_cast_objectid(self):

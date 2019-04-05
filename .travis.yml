@@ -3,29 +3,29 @@ language: python
 sudo: false
 
 env:
-    - TARGET=unit
+  - TARGET=unit
 
 python:
-    - "2.7"
+  - "2.7"
 
 services:
-    - mongodb
-    - redis-server
+  - mongodb
+  - redis-server
 
 cache:
   directories:
     - $HOME/.cache/pip
 
 install:
-    - if [ "${TARGET}" = "unit" ] ; then
-        pip install -r dev-requirements.txt && pip install coveralls==1.0a2;
-      fi
+  - if [ "${TARGET}" = "unit" ] ; then
+    pip install -r dev-requirements.txt && pip install coveralls==1.0a2;
+    fi
 
 script:
-    - if [ "${TARGET}" = "unit" ]; then
-        flake8;
-        nosetests --with-coverage --cover-package=eden;
-      fi
+  - if [ "${TARGET}" = "unit" ]; then
+    flake8;
+    nosetests --with-coverage --cover-package=eden;
+    fi
 
 after_script:
-    - killall -9 python
+  - killall -9 python

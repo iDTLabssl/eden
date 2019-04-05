@@ -8,17 +8,17 @@
 # AUTHORS and LICENSE files distributed with this source code, or
 # at https://www.sourcefabric.org/eden/license
 
-import os
-import bcrypt
+import base64
 import hashlib
-from uuid import uuid4
+import os
 from datetime import datetime
-from bson import ObjectId
 from enum import Enum
 from importlib import import_module
-from eve.utils import config
-import base64
+from uuid import uuid4
 
+import bcrypt
+from bson import ObjectId
+from eve.utils import config
 
 required_string = {
     'type': 'string',
@@ -49,6 +49,7 @@ class EdenBaseEnum(Enum):
     """
     Base enum
     """
+
     @classmethod
     def from_value(cls, value):
         """

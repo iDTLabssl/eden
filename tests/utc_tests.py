@@ -10,10 +10,12 @@
 
 
 from datetime import datetime, timedelta
+
+from nose.tools import assert_raises
+from pytz import utc  # flake8: noqa
+
 from eden.tests import TestCase
 from eden.utc import get_date, utcnow, get_expiry_date
-from pytz import utc, timezone # flake8: noqa
-from nose.tools import assert_raises
 
 
 class UTCTestCase(TestCase):
