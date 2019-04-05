@@ -28,7 +28,7 @@ def update_notifiers(*args, **kwargs):
         notifier(*args, **kwargs)
 
 
-class EdenError(ValidationError):
+class EdenError(RuntimeError):
     _codes = {}
     system_exception = None
 
