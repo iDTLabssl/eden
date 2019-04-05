@@ -11,7 +11,6 @@
 
 import logging
 
-from eve.validation import ValidationError
 from flask import current_app as app
 
 logger = logging.getLogger(__name__)
