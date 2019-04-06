@@ -22,6 +22,8 @@ import eden.factory.settings
 from eden.celery_app import init_celery
 from eden.errors import EdenError, EdenApiError
 from eden.validator import EdenValidator
+from eve.io.mongo.mongo import Mongo
+from eve.io.mongo.media import GridFSMediaStorage
 
 
 def configure_logging(app):
@@ -37,10 +39,17 @@ def configure_logging(app):
     )
 
 
-def get_app(config=None):
+def get_app(
+        config=None,
+        validator=EdenValidator,
+        data=Mongo,
+        auth=None,
+        redis=None,
+        url_converters=None,
+        json_encoder=MongoJSONEncoder,
+        media=GridFSMediaStorage,):
     """App factory.
 
-    :param config: configuration that can override config from `settings.py`
     :return: a new SuperdeskEve app instance
     """
     if config is None:
@@ -57,8 +66,14 @@ def get_app(config=None):
 
     app = eve.Eve(
         settings=config,
-        json_encoder=MongoJSONEncoder,
-        validator=EdenValidator
+        validator=validator,
+        data=data,
+        auth=auth,
+        redis=redis,
+        url_converters=url_converters,
+        json_encoder=json_encoder,
+        media=media
+
     )
     configure_logging(app)
     eden.app = app
