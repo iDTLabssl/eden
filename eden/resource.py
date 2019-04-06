@@ -186,9 +186,8 @@ class Resource:
 
     def on_pre_update(self, updates, original):
         if self.update_readonly:
-            for update in updates:
-                for key in set(self.update_readonly).intersection(set(update.keys())):
-                    del update[key]
+            for key in set(self.update_readonly).intersection(set(updates.keys())):
+                del updates[key]
 
     def on_pre_replace(self, document, original):
         if self.replace_readonly:
