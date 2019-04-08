@@ -6,3 +6,4 @@ pyflakes
 nose
 mccabe
 mock
+python-dotenv

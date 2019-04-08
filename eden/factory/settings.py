@@ -27,19 +27,19 @@ BANDWIDTH_SAVER = False
 PAGINATION_LIMIT = 200
 
 APPLICATION_NAME = env('APP_NAME', 'Eden')
-server_url = urlparse(env('EDEN_URL', 'http://localhost:5000/api'))
-URL_PROTOCOL = server_url.scheme or None
-SERVER_NAME = server_url.netloc or None
-
-URL_PREFIX = server_url.path.lstrip('/') or ''
-if SERVER_NAME.endswith(':80'):
-    SERVER_NAME = SERVER_NAME[:-3]
-
-if ':' in SERVER_NAME:
-    parts = SERVER_NAME.split(':')
-    SERVER_DOMAIN = parts[0]
-else:
-    SERVER_DOMAIN = SERVER_NAME
+# server_url = urlparse(env('EDEN_URL', 'http://localhost:5000/api'))
+# URL_PROTOCOL = server_url.scheme or None
+# SERVER_NAME = server_url.netloc or None
+#
+# URL_PREFIX = server_url.path.lstrip('/') or ''
+# if SERVER_NAME.endswith(':80'):
+#     SERVER_NAME = SERVER_NAME[:-3]
+#
+# if ':' in SERVER_NAME:
+#     parts = SERVER_NAME.split(':')
+#     SERVER_DOMAIN = parts[0]
+# else:
+#     SERVER_DOMAIN = SERVER_NAME
 
 JSON_SORT_KEYS = True
 
