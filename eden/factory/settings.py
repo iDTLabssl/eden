@@ -10,9 +10,12 @@ try:
 except ImportError:
     from urlparse import urlparse
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def env(variable, fallback_value=None):
-    env_value = os.environ.get(variable, '')
+    env_value = os.getenv(variable, '')
     if len(env_value) == 0:
         return fallback_value
     else:

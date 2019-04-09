@@ -20,3 +20,4 @@ mongolock
 Eve-Statsd
 enum34
 blinker
+python-dotenv
