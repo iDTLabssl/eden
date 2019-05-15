@@ -13,7 +13,6 @@
 import logging
 
 from flask import current_app as app  # noqa
-from flask_script import Command as BaseCommand  # noqa @UnresolvedImport
 
 from .resource import Resource  # noqa
 from .services import BaseService
@@ -30,7 +29,7 @@ resources = dict()
 _logger = logging.getLogger(__name__)
 
 
-class Command(BaseCommand):
+class Command:
     """
     The Eve framework changes introduced with https://github.com/nicolaiarocci/eve/issues/213 make the commands fail.
     Reason being the flask-script's run the commands using test_request_context() which is invalid.
