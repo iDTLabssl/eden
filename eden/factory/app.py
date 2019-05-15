@@ -19,7 +19,7 @@ from eve.render import send_response
 from raven.contrib.flask import Sentry
 
 import eden.factory.settings
-from eden.celery_app import init_celery
+# from eden.celery_app import init_celery
 from eden.errors import EdenError, EdenApiError
 from eden.validator import EdenValidator
 from eve.io.mongo.mongo import Mongo
@@ -101,7 +101,7 @@ def get_app(
         return_error = EdenApiError.internalError()
         return client_error_handler(return_error)
 
-    init_celery(app)
+   # init_celery(app)
 
     for module_name in app.config['INSTALLED_APPS']:
         app_module = importlib.import_module(module_name)
