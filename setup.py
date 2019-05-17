@@ -19,7 +19,7 @@ except ImportError:  # for pip <= 9.0.3
     from pip.req import parse_requirements
     from pip.download import PipSession
 
-LONG_DESCRIPTION = open('README.rst').read()
+# LONG_DESCRIPTION = open('README.rst').read()
 REQUIREMENTS = [str(ir.req) for ir in parse_requirements('requirements.txt', session=PipSession())
                 if not (getattr(ir, 'link', False) or getattr(ir, 'url', False))]
 
@@ -27,7 +27,7 @@ setup(
     name='Eden',
     version='0.0.3-dev',
     description='Eden Core library',
-    long_description=LONG_DESCRIPTION,
+    long_description='Eden Core library',
     author='Salton Massally',
     author_email='salton.massally@gmail.com',
     url='https://github.com/idtlabssl/eden',
