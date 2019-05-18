@@ -50,11 +50,7 @@ class EdenValidator(Validator):
             self._error(field, ERROR_PATTERN)
 
     def _validate_multiple_emails(self, multiple, field, value):
-        """
-        Validates comma separated list of emails.
-        :param field: field name.
-        :param value: field value.
-        """
+        """ {'type': 'boolean'} """
         if multiple:
             emails = value.split(',')
             for email in emails:
