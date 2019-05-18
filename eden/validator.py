@@ -19,9 +19,11 @@ ERROR_JSON_LIST = {'json_list': 1}
 class EdenValidator(Validator):
 
     def _validate_mapping(self, mapping, field, value):
+        """ {'type': 'boolean'} """
         pass
 
     def _validate_index(self, field, value):
+        """ {'type': 'boolean'} """
         pass
 
     def _validate_type_phone_number(self, field, value):
