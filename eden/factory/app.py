@@ -25,6 +25,15 @@ from eden.validator import EdenValidator
 from eve.io.mongo.mongo import Mongo
 from eve.io.mongo.media import GridFSMediaStorage
 
+class BlinkerCompatibleEve(eve.Eve):
+    """
+    Workaround for https://github.com/pyeve/eve/issues/1087
+    """
+    def __getattr__(self, name):
+        if name in {"im_self", "im_func"}:
+            raise AttributeError("type object '%s' has no attribute '%s'" %
+                                 (self.__class__.__name__, name))
+        return super(BlinkerCompatibleEve, self).__getattr__(name)
 
 def configure_logging(app):
     if app.config['DEBUG'] or app.debug:
@@ -63,7 +72,7 @@ def get_app(
 
     config.setdefault('DOMAIN', {})
 
-    app = eve.Eve(
+    app = BlinkerCompatibleEve(
         settings=config,
         validator=validator,
         data=data,
