@@ -59,7 +59,7 @@ class BaseService:
         pass
 
     def create(self, docs, **kwargs):
-        ids = self.backend.create(self.datasource, docs, **kwargs)
+        ids = self.backend.insert(self.datasource, docs, **kwargs)
         return ids
 
     def update(self, id, updates, original):
