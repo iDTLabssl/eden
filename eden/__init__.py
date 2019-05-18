@@ -65,7 +65,7 @@ def blueprint(blueprint, **kwargs):
     BLUEPRINTS.append(blueprint)
 
 
-def register_resource(name, resource, service=None):
+def register_resource(name, resource, app, service=None):
     """Shortcut for registering resource and service together.
 
     :param name: resource name
@@ -74,7 +74,7 @@ def register_resource(name, resource, service=None):
     """
     if not service:
         service = BaseService
-    service_instance = service(name)
+    service_instance = service(datasource=name, backend=app.data)
     resource(name, app=app, service=service_instance)
 
 
