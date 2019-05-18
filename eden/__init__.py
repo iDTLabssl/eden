@@ -65,7 +65,7 @@ def blueprint(blueprint, **kwargs):
     BLUEPRINTS.append(blueprint)
 
 
-def register_resource(name, resource, app, service=None):
+def register_resource(app, name, resource, service=None):
     """Shortcut for registering resource and service together.
 
     :param name: resource name
