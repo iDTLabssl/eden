@@ -68,7 +68,7 @@ class EdenValidator(Validator):
                 query[config.ID_FIELD] = {'$ne': self._id}
 
     def _validate_iunique(self, unique, field, value):
-        """Validate uniqueness ignoring case.MONGODB USE ONLY"""
+        """ {'type': 'boolean'} """
 
         if unique:
             pattern = '^{}$'.format(re.escape(value.strip()))
@@ -80,7 +80,7 @@ class EdenValidator(Validator):
                 self._error(field, ERROR_UNIQUE)
 
     def _validate_iunique_per_parent(self, parent_field, field, value):
-        """Validate uniqueness ignoring case.MONGODB USE ONLY"""
+        """ {'type': 'boolean'} """
         original = self._original_document or {}
         update = self.document or {}
 
@@ -99,6 +99,7 @@ class EdenValidator(Validator):
                 self._error(field, ERROR_UNIQUE)
 
     def _validate_required_fields(self, document):
+        """ {'type': 'boolean'} """
         required = list(field for field, definition in self.schema.items()
                         if definition.get('required') is True)
         missing = set(required) - set(key for key in document.keys()
@@ -113,11 +114,7 @@ class EdenValidator(Validator):
             self._error(field, ERROR_JSON_LIST)
 
     def _validate_unique_template(self, unique, field, value):
-        """Check that value is unique globally or to current user.
-        In case 'is_public' is false within document it will check for unique within
-        docs with same 'user' value.
-        Otherwise it will check for unique within docs without any 'user' value.
-        """
+        """ {'type': 'boolean'} """
         original = self._original_document or {}
         update = self.document or {}
 
