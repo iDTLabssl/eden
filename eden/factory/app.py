@@ -32,7 +32,6 @@ def configure_logging(app):
     app.sentry = Sentry(
         app,
         dsn=app.config['SENTRY_DSN'],
-        register_signal=True,
         wrap_wsgi=True,
         logging=True,
         level=app.config['SENTRY_ERROR_LEVEL']
