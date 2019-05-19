@@ -144,7 +144,7 @@ class BaseService:
             self.on_deleted(doc)
         return res
 
-    def is_authorized(self, operation, **kwargs):
+    def is_authorized(self, operation, request, **kwargs):
         """Subclass should override if the resource handled by the service has intrinsic privileges.
 
         :param kwargs: should have properties which help in authorizing the request
