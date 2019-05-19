@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 import logging
-
+from flask import abort
 from eve.utils import config
 
 import eden
@@ -166,7 +166,6 @@ class Resource:
         on_replaced_event -= service.on_replaced
         on_replaced_event += service.on_replaced
 
-
         # hook in our pre and post processors
         for phase in ('pre', 'post'):
             for method in _METHODS:
@@ -179,17 +178,23 @@ class Resource:
         eden.resources[self.endpoint_name] = self
 
     def on_pre_insert(self, docs):
+        if not self.service.is_authorized():
+            abort(403, "Access to record for operation is forbidden")
         if self.insert_readonly:
             for doc in docs:
                 for key in set(self.insert_readonly).intersection(set(doc.keys())):
                     del doc[key]
 
     def on_pre_update(self, updates, original):
+        if not self.service.is_authorized():
+            abort(403, "Access to record for operation is forbidden")
         if self.update_readonly:
             for key in set(self.update_readonly).intersection(set(updates.keys())):
                 del updates[key]
 
     def on_pre_replace(self, document, original):
+        if not self.service.is_authorized():
+            abort(403, "Access to record for operation is forbidden")
         if self.replace_readonly:
             for key in set(self.replace_readonly).intersection(set(document.keys())):
                 del document[key]
