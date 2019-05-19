@@ -35,6 +35,7 @@ class BlinkerCompatibleEve(eve.Eve):
                                  (self.__class__.__name__, name))
         return super(BlinkerCompatibleEve, self).__getattr__(name)
 
+
 def configure_logging(app):
     if app.config['DEBUG'] or app.debug:
         return
@@ -85,6 +86,7 @@ def get_app(
     )
     configure_logging(app)
     eden.app = app
+    app.eve_resources = {}
 
     custom_loader = jinja2.ChoiceLoader([
         app.jinja_loader,

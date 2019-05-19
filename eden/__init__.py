@@ -75,7 +75,7 @@ def register_resource(app, name, resource, service=None):
     if not service:
         service = BaseService
     service_instance = service(datasource=name, backend=app.data)
-    resource(name, app=app, service=service_instance)
+    app.eve_resources[name] = resource(name, app=app, service=service_instance)
 
 
 def register_jinja_filter(name, jinja_filter):
