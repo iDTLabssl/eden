@@ -62,6 +62,12 @@ class BaseService:
         ids = self.backend.insert(self.datasource, docs, **kwargs)
         return ids
 
+    def remove(self, **lookup):
+        return self.backend.remove(self.datasource, lookup)
+
+    def remove_all(self):
+        return self.backend.remove(self.datasource, {})
+
     def update(self, id, updates, original):
         return self.backend.update(self.datasource, id, updates, original)
 
