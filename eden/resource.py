@@ -118,15 +118,20 @@ class Resource:
         on_fetched_resource -= service.on_fetched
         on_fetched_resource += service.on_fetched
 
+        on_fetched_resource -= self.on_pre_fetched_resource
+        on_fetched_resource += self.on_pre_fetched_resource
+
         on_fetched_item = getattr(app, 'on_fetched_item_%s' % self.endpoint_name)
         on_fetched_item -= service.on_fetched_item
         on_fetched_item += service.on_fetched_item
+
+        on_fetched_item -= self.on_pre_fetched_item
+        on_fetched_item += self.on_pre_fetched_item
 
         on_insert_event = getattr(app, 'on_insert_%s' % self.endpoint_name)
         on_insert_event -= service.on_create
         on_insert_event += service.on_create
 
-        # let's also add  the validation here for inserts
         on_insert_event -= self.on_pre_insert
         on_insert_event += self.on_pre_insert
 
@@ -138,7 +143,6 @@ class Resource:
         on_update_event -= service.on_update
         on_update_event += service.on_update
 
-        # let's also add  the validation here for updates
         on_update_event -= self.on_pre_update
         on_update_event += self.on_pre_update
 
@@ -158,7 +162,6 @@ class Resource:
         on_replace_event -= service.on_replace
         on_replace_event += service.on_replace
 
-        # let's also add  the validation here for replaces
         on_replace_event -= self.on_pre_replace
         on_replace_event += self.on_pre_replace
 
@@ -176,6 +179,14 @@ class Resource:
 
         app.register_resource(self.endpoint_name, endpoint_schema)
         eden.resources[self.endpoint_name] = self
+
+    def on_pre_fetched_resource(self, docs):
+        if not self.service.is_authorized():
+            abort(403, "Access to record for operation is forbidden")
+
+    def on_pre_fetched_item(self, docs):
+        if not self.service.is_authorized():
+            abort(403, "Access to record for operation is forbidden")
 
     def on_pre_insert(self, docs):
         if not self.service.is_authorized():
