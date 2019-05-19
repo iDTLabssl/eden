@@ -181,15 +181,15 @@ class Resource:
         eden.resources[self.endpoint_name] = self
 
     def on_pre_fetched_resource(self, docs):
-        if not self.service.is_authorized():
+        if not self.service.is_authorized("GET"):
             abort(403, "Access to record for operation is forbidden")
 
     def on_pre_fetched_item(self, docs):
-        if not self.service.is_authorized():
+        if not self.service.is_authorized("LIST"):
             abort(403, "Access to record for operation is forbidden")
 
     def on_pre_insert(self, docs):
-        if not self.service.is_authorized():
+        if not self.service.is_authorized("POST"):
             abort(403, "Access to record for operation is forbidden")
         if self.insert_readonly:
             for doc in docs:
@@ -197,14 +197,14 @@ class Resource:
                     del doc[key]
 
     def on_pre_update(self, updates, original):
-        if not self.service.is_authorized():
+        if not self.service.is_authorized("PATCH"):
             abort(403, "Access to record for operation is forbidden")
         if self.update_readonly:
             for key in set(self.update_readonly).intersection(set(updates.keys())):
                 del updates[key]
 
     def on_pre_replace(self, document, original):
-        if not self.service.is_authorized():
+        if not self.service.is_authorized("PUT"):
             abort(403, "Access to record for operation is forbidden")
         if self.replace_readonly:
             for key in set(self.replace_readonly).intersection(set(document.keys())):
