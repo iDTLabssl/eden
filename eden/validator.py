@@ -6,6 +6,9 @@ from eve.auth import auth_field_and_value
 from eve.io.mongo import Validator
 from eve.utils import config
 from werkzeug.datastructures import FileStorage
+import phonenumbers
+from phonenumbers import carrier
+from phonenumbers.phonenumberutil import number_type
 
 import eden
 
@@ -31,7 +34,10 @@ class EdenValidator(Validator):
         :param field: field name.
         :param value: field value.
         """
-        return re.match("^(?:(?:0?[1-9][0-9]{8})|(?:(?:\+|00)[1-9][0-9]{9,11}))$", value)
+        try:
+            return carrier._is_mobile(number_type(phonenumbers.parse(value)))
+        except:
+            return False
 
     def _validate_type_email(self, value):
         """Enables validation for `email` schema attribute.
