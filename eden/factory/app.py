@@ -25,6 +25,7 @@ from eden.validator import EdenValidator
 from eve.io.mongo.mongo import Mongo
 from eve.io.mongo.media import GridFSMediaStorage
 
+
 class BlinkerCompatibleEve(eve.Eve):
     """
     Workaround for https://github.com/pyeve/eve/issues/1087

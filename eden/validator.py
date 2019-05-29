@@ -26,28 +26,25 @@ class EdenValidator(Validator):
         """ {'type': 'boolean'} """
         pass
 
-    def _validate_type_phone_number(self, field, value):
+    def _validate_type_phone_number(self, value):
         """Enables validation for `phone_number` schema attribute.
         :param field: field name.
         :param value: field value.
         """
-        if not re.match("^(?:(?:0?[1-9][0-9]{8})|(?:(?:\+|00)[1-9][0-9]{9,11}))$", value):
-            self._error(field, ERROR_PATTERN)
+        return re.match("^(?:(?:0?[1-9][0-9]{8})|(?:(?:\+|00)[1-9][0-9]{9,11}))$", value)
 
-    def _validate_type_email(self, field, value):
+    def _validate_type_email(self, value):
         """Enables validation for `email` schema attribute.
         :param field: field name.
         :param value: field value.
         """
         regex = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@" \
                 "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+(?:\.[a-z0-9](?:[a-z0-9-]{0,4}[a-z0-9])?)*$"
-        if not re.match(regex, value, re.IGNORECASE):
-            self._error(field, ERROR_PATTERN)
+        return re.match(regex, value, re.IGNORECASE)
 
-    def _validate_type_file(self, field, value):
+    def _validate_type_file(self, value):
         """Enables validation for `file` schema attribute."""
-        if not isinstance(value, FileStorage):
-            self._error(field, ERROR_PATTERN)
+        return isinstance(value, FileStorage)
 
     def _validate_multiple_emails(self, multiple, field, value):
         """ {'type': 'boolean'} """
