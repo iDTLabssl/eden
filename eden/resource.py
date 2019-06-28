@@ -62,12 +62,18 @@ class Resource:
     insert_readonly: list = None  # fields that should be readonly on create
     update_readonly: list = None  # fields that should be readonly on edit
     replace_readonly: list = None  # fields that should be readonly on edit
+    allowed_roles = None
+    allowed_item_roles = None
 
     def __init__(self, endpoint_name, app, service, endpoint_schema=None):
         self.endpoint_name = endpoint_name
         self.service = service
         if not endpoint_schema:
             endpoint_schema = {'schema': self.schema}
+            if self.allowed_roles is not None:
+                endpoint_schema.update({'allowed_roles': self.allowed_roles})
+            if self.allowed_item_roles is not None:
+                endpoint_schema.update({'allowed_item_roles': self.allowed_item_roles})
             if self.allow_unknown is not None:
                 endpoint_schema.update({'allow_unknown': self.allow_unknown})
             if self.additional_lookup is not None:
