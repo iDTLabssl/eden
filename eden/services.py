@@ -95,7 +95,12 @@ class BaseService:
 
         :param dict where:
         """
-        return self.backend.find(self.datasource, req, where, **kwargs)
+        cursor, count = self.backend.find(self.datasource, req, where, **kwargs)
+        documents = []
+        for i, document in enumerate(cursor):
+            documents.append(document)
+        return documents
+
 
     def get(self, req, lookup):
         if req is None:
