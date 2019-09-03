@@ -90,12 +90,12 @@ class BaseService:
         res = self.backend.find_one(self.datasource, req=req, **lookup)
         return res
 
-    def find(self, where, **kwargs):
+    def find(self, req, where, **kwargs):
         """Find items in service collection using mongo query.
 
         :param dict where:
         """
-        return self.backend.find(self.datasource, where, **kwargs)
+        return self.backend.find(self.datasource, req, where, **kwargs)
 
     def get(self, req, lookup):
         if req is None:
