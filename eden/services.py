@@ -75,7 +75,7 @@ class BaseService:
         return self.backend.system_update(self.datasource, id, updates, original)
 
     def aggregate(self, pipeline, options):
-        return self.backend.system_update(self.datasource, pipeline, options)
+        return self.backend.aggregate(self.datasource, pipeline, options)
 
     def replace(self, id, document, original):
         res = self.backend.replace(self.datasource, id, document, original)
