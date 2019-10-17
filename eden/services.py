@@ -74,6 +74,9 @@ class BaseService:
     def system_update(self, id, updates, original):
         return self.backend.system_update(self.datasource, id, updates, original)
 
+    def aggregate(self, pipeline, options):
+        return self.backend.system_update(self.datasource, pipeline, options)
+
     def replace(self, id, document, original):
         res = self.backend.replace(self.datasource, id, document, original)
         return res
@@ -100,7 +103,6 @@ class BaseService:
         for i, document in enumerate(cursor):
             documents.append(document)
         return documents
-
 
     def get(self, req, lookup):
         if req is None:
