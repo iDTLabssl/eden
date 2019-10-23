@@ -9,7 +9,6 @@
 # AUTHORS and LICENSE files distributed with this source code, or
 # at https://www.sourcefabric.org/eden/license
 
-
 from setuptools import setup, find_packages
 
 try:  # for pip >= 10
@@ -25,7 +24,7 @@ REQUIREMENTS = [str(ir.req) for ir in parse_requirements('requirements.txt', ses
 
 setup(
     name='Eden',
-    version='0.0.7',
+    version='0.0.9',
     description='Eden Core library',
     long_description='Eden Core library',
     author='Salton Massally',

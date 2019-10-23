@@ -187,11 +187,11 @@ class Resource:
         eden.resources[self.endpoint_name] = self
 
     def on_pre_fetched_resource(self, docs):
-        if not self.service.is_authorized("GET", docs):
+        if not self.service.is_authorized("LIST", docs):
             abort(403, "Access to record for operation is forbidden")
 
     def on_pre_fetched_item(self, docs):
-        if not self.service.is_authorized("LIST", docs):
+        if not self.service.is_authorized("GET", docs):
             abort(403, "Access to record for operation is forbidden")
 
     def on_pre_insert(self, docs):
